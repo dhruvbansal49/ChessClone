@@ -1,0 +1,1 @@
+In this project on clicking the cell you will get the moves that you can take for that cell according to the thing contained in that cell (king,bishop,queen etc..). If you try to move other person token (king,bishop,queen etc..) then alert is shown. You can also start a new Game at any point by clicking the button shown.

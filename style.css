@@ -1,11 +1,15 @@
 body{
     margin:0;
     box-sizing: border-box;
+    
+    /* overflow: hidden; */
+}
+.container{
     height:100vh;
     width:100vw;
     background-color: rgba(128, 128, 128, 0.562);
     display: flex;
-    /* overflow: hidden; */
+    position: relative;
 }
 .cutted-black,.cutted-white{
     height:100vh;
@@ -54,5 +58,91 @@ img{
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     cursor: pointer;
     /* border: 1px solid black */
+}
+.modal-parent{
+    position: absolute;
+    height:100vh;
+    width:100vw;
+    top:0;
+    background-color: rgba(68, 68, 68, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.winner-modal,.confirm-modal{
+    background-color: #fff;
+    box-shadow: 0 8px 16px 0 rgb(88, 88, 88);
+    padding: 15px;
+    width: 40%;
+    height:40%;
+}
+.confirm-modal{
+    width:35%;
+    height:30%;
+}
+h1{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+h2{
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+.button-container{
+    display: flex;
+    justify-content: space-around;
+}
+.new,.close,.new-button{
+    border: 1px solid;
+    width: 150px;
+    height: 60px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size:20px;
+    color: white ;
+    cursor: pointer;
+    box-shadow: 2px 4px #888888;
+    margin-top: 30px;
+}
+.new,.new-button{
+    background-color: rgba(0, 0, 255, 0.651);
+}
+.close{
+    background-color: red;
+}
+.cutted-white{
+    position: relative;
+}
+.new-button{
+    transform:rotate(270deg);
+    position:absolute;
+    top:42%;
+    right:0;
+}
+.button {
+    border: 1px solid;
+    width: 110px;
+    height: 50px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 30px;
+}
+
+.yes-button {
+    background-color: #217346;
+    color: #fff;
+}
+
+.yes-button:hover {
+    background-color: #1d633c;
+    cursor: pointer;
+}
+
+.no-button:hover {
+    background-color: lightgray;
+    cursor: pointer;
 }
 

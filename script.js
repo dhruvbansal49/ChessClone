@@ -1,21 +1,18 @@
 let chessBoard = $(".chess-board");
+let container = $(".container");
 let chess = [];
 
 let forw = {
     "black":1,
     "white":-1
 }
-let back = {
-    "black":-1,
-    "white":1
-}
 let turn = 1;
 let turnObj={
     1:"white",
     2:"black"
 }
-// console.log(chess);
 function newGame(){
+    turn=1;
     for(let i=0;i<8;i++){
         chess[i]=[]
         for(let j=0;j<8;j++){
@@ -79,7 +76,7 @@ function show(){
             col.attr("color","");
             if(chess[i-1][j-1]["color"]!=""){
                 let imageUrl=`./img/${chess[i-1][j-1]["color"]}-${chess[i-1][j-1]["type"]}.png`;
-                console.log(imageUrl);
+                // console.log(imageUrl);
                 // col.css('background-image',"url("+imageUrl+")");
                 let img = $(`<img src=${imageUrl}>`);
                 col.attr("color",chess[i-1][j-1]["color"]);
@@ -94,7 +91,7 @@ function show(){
 }
 
 newGame();
-
+addListeners();
 // function reRoll(){
 //     let prev = (turn+1)%2;
 //     $(`[color=${turnObj[turn]}]`).mouseover(function(){
@@ -105,6 +102,17 @@ newGame();
 //     })
 // }
 // let prev = (turn+1)%2;
+function applyChange(row,col){
+    $(`.cell-${row}-${col}`).empty();
+    if(chess[row-1][col-1]["color"]!=""){
+        let imageUrl=`./img/${chess[row-1][col-1]["color"]}-${chess[row-1][col-1]["type"]}.png`;
+        // console.log(imageUrl);
+        // col.css('background-image',"url("+imageUrl+")");
+        let img = $(`<img src=${imageUrl}>`);
+        $(`.cell-${row}-${col}`).append(img);
+    }
+    $(`.cell-${row}-${col}`).attr("color",chess[row-1][col-1]["color"]);
+}
 function getData(classname){
     let ans = {
         "row" : Number(classname.split(" ")[1].split("-")[1]),
@@ -118,7 +126,7 @@ function showMoves(row,col,color,type){
     // Note here i get (row-1) and (col-1) so keep in mind to handle
     let moves=[];
     let oppColor = color=="white"?"black":"white";
-    console.log(oppColor);
+    // console.log(oppColor);
     if(type=="pawn"){
         if((row+forw[color]<8)&&(row+forw[color]>=0)&&chess[row+forw[color]][col]["type"]==""){
             moves.push([row+forw[color],col]);
@@ -198,7 +206,7 @@ function showMoves(row,col,color,type){
             let temprow = row+dirs[i][0];
             let tempcol = col+dirs[i][1];
             while((temprow<8)&&(temprow>=0)&&(tempcol<8)&&(tempcol>=0)&&(chess[temprow][tempcol]["color"]!=color)){
-                console.log(i+" "+temprow+" "+tempcol);
+                // console.log(i+" "+temprow+" "+tempcol);
                 moves.push([temprow,tempcol]);
                 if((chess[temprow][tempcol]["color"]==oppColor)){
                     break;
@@ -213,33 +221,112 @@ function showMoves(row,col,color,type){
         $(`.cell-${moves[i][0]+1}-${moves[i][1]+1}`).addClass("move")
     }
 }
-$(".cell").mouseover(function(e){
-    let {row,col} = getData(e.currentTarget.className);
-    if(turnObj[turn]==$(this).attr("color")){
-        $(this).addClass("hovered")
-    }
-})
-$(".cell").mouseout(function(){
-    if(turnObj[turn]==$(this).attr("color")){
-        $(this).removeClass("hovered")
-    }
-})
-
-$(".cell").click(function(e){
-    let {row,col,color,type} = getData(e.currentTarget.className);
-    if( (chess[row-1][col-1]!=null) && turnObj[turn]==$(this).attr("color") ){
-        if($(this).hasClass("clicked")){
-            console.log("has")
-            $(this).removeClass("clicked");
-            $(".cell").removeClass("move");
-        }else{
-            $(".cell").removeClass("clicked");
-            $(this).addClass("clicked");
-            showMoves(row-1,col-1,color,type);
-        } 
-    }
-})
-
-
-
-
+function winner(winnerName){
+    // console.log("Over");
+    let modal = $(`<div class="modal-parent">
+                        <div class="winner-modal">
+                            <h1>${winnerName} Wins!! </h1>
+                            <h1>Well Played Both of you</h1>
+                            <div class="button-container">
+                                <button class="new">New Game</button>
+                                <button class="close">Close</button>
+                            </div>  
+                        </div>
+                    </div>`)
+    container.append(modal);
+    $(".new").click(function(e){
+        $(".modal-parent").remove();
+        $(".chess-board").empty();
+        newGame();
+        addListeners();
+        
+    })
+    $(".close").click(function(e){
+        $(".modal-parent").remove();
+    })
+    
+}
+function addListeners(){
+    $(".cell").mouseover(function(e){
+        let {row,col} = getData(e.currentTarget.className);
+        if(turnObj[turn]==$(this).attr("color")){
+            $(this).addClass("hovered")
+        }
+    })
+    $(".cell").mouseout(function(){
+        if(turnObj[turn]==$(this).attr("color")){
+            $(this).removeClass("hovered")
+        }
+    })
+    
+    $(".cell").click(function(e){
+        let {row,col,color,type} = getData(e.currentTarget.className);
+        if(turn==5){
+            alert("Game is Over Now. You can start a New Game by clicking on New Game button or by Refreshing the Page")
+        }else if( (chess[row-1][col-1]["color"]!="" && turnObj[turn]==$(this).attr("color")) || ($(this).hasClass("move")) ){
+            if($(this).hasClass("clicked")){
+                $(this).removeClass("clicked");
+                $(".cell").removeClass("move");
+            }else if($(this).hasClass("move")){
+                let moveRow = $(this)[0].className.split(" ")[1].split("-")[1];
+                let moveCol = $(this)[0].className.split(" ")[1].split("-")[2];
+                let clickRow = $(".clicked")[0].className.split(" ")[1].split("-")[1];
+                let clickCol = $(".clicked")[0].className.split(" ")[1].split("-")[2];
+                if(chess[moveRow-1][moveCol-1]["type"]=="king"){
+                    if(chess[moveRow-1][moveCol-1]["color"]=="white"){
+                        // console.log("Black")
+                        winner("Black");
+                    }else{
+                        // console.log("White")
+                        winner("White");
+                    }
+                    turn=5;
+                    
+                }
+                chess[moveRow-1][moveCol-1]["color"]=chess[clickRow-1][clickCol-1]["color"];
+                chess[moveRow-1][moveCol-1]["type"]=chess[clickRow-1][clickCol-1]["type"];
+                chess[clickRow-1][clickCol-1]["color"]="";
+                chess[clickRow-1][clickCol-1]["type"]="";
+                applyChange(moveRow,moveCol);
+                applyChange(clickRow,clickCol);
+                $(".clicked").removeClass("clicked");
+                $(".move").removeClass("move");
+                if(turn==1){
+                    turn=2;
+                }else if(turn==2){
+                    turn=1;
+                }
+                
+            }else{
+                $(".cell").removeClass("clicked");
+                $(this).addClass("clicked");
+                showMoves(row-1,col-1,color,type);
+            } 
+        }else if( (chess[row-1][col-1]!=null) && $(this).attr("color")!="" ){
+            alert("You can't move other Player's chess piece");
+        }
+    })
+    $(".new-button").click(function(e){
+        let modal = $(`<div class="modal-parent">
+                            <div class="confirm-modal">
+                                <h2>Are you sure you want to start a New Game?</h2>
+                                <div class="button-container">
+                                    <button class="button yes-button">Yes</button>
+                                    <button class="button no-button">No</button>
+                                </div>
+                                
+                            </div>
+                        </div>`)
+        container.append(modal); 
+        $(".no-button").click(function(e){
+            $(".modal-parent").remove();
+        })
+        $(".yes-button").click(function(e){
+            $(".modal-parent").remove();
+            $(".chess-board").empty();
+            newGame();
+            addListeners();
+        })
+           
+    })
+}

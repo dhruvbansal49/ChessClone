@@ -27,7 +27,7 @@ body{
     background-size: auto;
 }
 .black{
-    background-color: rgba(0, 0, 0, 0.541);
+    background-color: rgba(0, 0, 0, 0.603);
 }
 .white{
     background-color: white;
@@ -41,8 +41,18 @@ img{
     width: 80%;
     margin: 10% 10% 10% 10%;
 }
-
+.hovered{
+    background-color: yellow;
+    cursor: pointer;
+}
 .clicked{
     background-color: yellow;
+}
+.move{
+    background-color: rgba(0, 0, 0, 0.603);
+    background-color: #E8E8E8;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    cursor: pointer;
+    /* border: 1px solid black */
 }
 

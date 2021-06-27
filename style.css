@@ -1,0 +1,36 @@
+body{
+    margin:0;
+    box-sizing: border-box;
+    height:100vh;
+    width:100vw;
+    background-color: rgba(128, 128, 128, 0.562);
+    display: flex;
+    /* overflow: hidden; */
+}
+.cutted-black,.cutted-white{
+    height:100vh;
+    width:20%;
+}
+.chess-board{
+    height:calc(100vh - 4rem);
+    width:60%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    /* border:5px solid black; */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+.cell{
+    height: calc((100vh - 4rem) / 8);
+    width: 12.5%;
+}
+.black{
+    background-color: rgba(0, 0, 0, 0.541);
+}
+.white{
+    background-color: white;
+}
+.row{
+    display:flex;
+    flex-direction: row;
+}
+

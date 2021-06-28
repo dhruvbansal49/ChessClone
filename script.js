@@ -293,8 +293,12 @@ function addListeners(){
                 $(".move").removeClass("move");
                 if(turn==1){
                     turn=2;
+                    chessBoard.css("transform","rotate(180deg)")
+                    $("img").css("transform","rotate(180deg)")
                 }else if(turn==2){
                     turn=1;
+                    chessBoard.css("transform","none")
+                    $("img").css("transform","none")
                 }
                 
             }else{

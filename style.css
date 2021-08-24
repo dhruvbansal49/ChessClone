@@ -26,7 +26,6 @@ body{
 .cell{
     height: calc((100vh - 4rem) / 8);
     width: 12.5%;
-    /* background-image: url("./img/black-rook.png"); */
     background-repeat: no-repeat;
     background-size: auto;
 }
@@ -57,7 +56,6 @@ img{
     background-color: #E8E8E8;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     cursor: pointer;
-    /* border: 1px solid black */
 }
 .modal-parent{
     position: absolute;
@@ -144,6 +142,4 @@ h2{
 .no-button:hover {
     background-color: lightgray;
     cursor: pointer;
-    /* transform:n; */
 }
-

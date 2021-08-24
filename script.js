@@ -130,6 +130,16 @@ function showMoves(row,col,color,type){
     if(type=="pawn"){
         if((row+forw[color]<8)&&(row+forw[color]>=0)&&chess[row+forw[color]][col]["type"]==""){
             moves.push([row+forw[color],col]);
+            if(color=="black"&&row==1){
+                if(chess[row+2*forw[color]][col]["type"]==""){
+                    moves.push([row+2*forw[color],col]);
+                }
+            }
+            if(color=="white"&&row==6){
+                if(chess[row+2*forw[color]][col]["type"]==""){
+                    moves.push([row+2*forw[color],col]);
+                }
+            }
         }
         if((row+forw[color]<8)&&(row+forw[color]>=0)&&(col-1>=0)&&chess[row+forw[color]][col-1]["color"]==oppColor){
             moves.push([row+forw[color],col-1]);
@@ -137,16 +147,7 @@ function showMoves(row,col,color,type){
         if((row+forw[color]<8)&&(row+forw[color]>=0)&&(col+1<8)&&chess[row+forw[color]][col+1]["color"]==oppColor){
             moves.push([row+forw[color],col+1]);
         }
-        if(color=="black"&&row==1){
-            if(chess[row+2*forw[color]][col]["type"]==""){
-                moves.push([row+2*forw[color],col]);
-            }
-        }
-        if(color=="white"&&row==6){
-            if(chess[row+2*forw[color]][col]["type"]==""){
-                moves.push([row+2*forw[color],col]);
-            }
-        }
+        
     }else if(type=="knight"){
         let dirs=[[-2,-1],[-2,1],[-1,2],[1,2],[2,1],[2,-1],[1,-2],[-1,-2]];
         for(let i=0;i<dirs.length;i++){
@@ -328,6 +329,7 @@ function addListeners(){
         $(".yes-button").click(function(e){
             $(".modal-parent").remove();
             $(".chess-board").empty();
+            $(".chess-board").css("transform","none");
             newGame();
             addListeners();
         })
